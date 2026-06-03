@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+
+# Java
+backend-java/target/
+backend-java/.idea/
+*.class
+
+# Python
+backend-python-ai/.venv/
+backend-python-ai/__pycache__/
+backend-python-ai/.pytest_cache/
+*.pyc
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Uploads and local env
+uploads/
+backend-java/uploads/
+.env
+*.env
+application-local.yml
+backend-java/src/main/resources/application-local.yml
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/

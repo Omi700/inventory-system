@@ -1,0 +1,37 @@
+# 1. Spring 核心配置（应用名、数据库）
+spring:
+  application:
+    name: backend-java
+  datasource:
+    # 数据库连接地址。
+    # 优先读取环境变量 DB_URL；如果没有配置，就使用后面的默认本地 MySQL 地址。
+    url: ${DB_URL:jdbc:mysql://localhost:3306/inventory_mvp?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai}
+
+    # 数据库用户名。
+    # 优先读取环境变量 DB_USERNAME；如果没有配置，默认使用 root。
+    username: ${DB_USERNAME:root}
+
+    # 数据库密码。
+    # 优先读取环境变量 DB_PASSWORD；如果没有配置，默认留空，避免把真实密码提交到 GitHub。
+    password: ${DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# 2. 服务器配置
+server:
+  port: 8080
+
+# 3. 自定义业务配置（JWT、AI地址、上传路径）
+inventory:
+  jwt:
+    # JWT 签名密钥。
+    # 生产环境必须通过环境变量 JWT_SECRET 配置，并且长度建议不少于 32 个字符。
+    # 这里保留默认值只是为了本地学习阶段能直接启动。
+    secret: ${JWT_SECRET:12345678901234567890123456789012}
+
+    # token 过期时间，单位：小时。
+    # 可以通过环境变量 JWT_EXPIRE_HOURS 覆盖。
+    expire-hours: ${JWT_EXPIRE_HOURS:24}
+  python-ai:
+    base-url: http://localhost:8001
+  uploads:
+    base-dir: uploads/products
