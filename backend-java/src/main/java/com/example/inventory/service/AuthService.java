@@ -4,6 +4,7 @@ import com.example.inventory.api.dto.LoginRequest;
 import com.example.inventory.api.dto.LoginResponse;
 import com.example.inventory.domain.AppUser;
 import com.example.inventory.repository.AppUserRepository;
+import com.example.inventory.security.CurrentUser;
 import com.example.inventory.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,14 @@ public class AuthService {
                 user.getRole()
         );
         return new LoginResponse(token, userInfo);
+    }
+    // 根据当前登录用户对象，返回前端需要的用户信息
+    public LoginResponse.UserInfo getCurrentUser(CurrentUser currentUser) {
+        return new LoginResponse.UserInfo(
+                currentUser.getId(),
+                currentUser.getUsername(),
+                currentUser.getNickname(),
+                currentUser.getRole()
+        );
     }
 }
