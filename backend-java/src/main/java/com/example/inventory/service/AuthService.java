@@ -40,6 +40,7 @@ public class AuthService {
                 user.getId(),
                 user.getUsername(),
                 user.getNickname(),
+                user.getAvatarUrl(),
                 user.getRole()
         );
         return new LoginResponse(token, userInfo);
@@ -50,6 +51,7 @@ public class AuthService {
                 currentUser.getId(),
                 currentUser.getUsername(),
                 currentUser.getNickname(),
+                currentUser.getAvatarUrl(),
                 currentUser.getRole()
         );
     }

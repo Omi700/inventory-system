@@ -71,6 +71,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     user.getId(),
                     user.getUsername(),
                     user.getNickname(),
+                    user.getAvatarUrl(),
                     user.getRole()
             );
 

@@ -1,10 +1,13 @@
 package com.example.inventory.repository;
 
+import com.example.inventory.api.dto.ProductDetailResponse;
 import com.example.inventory.api.dto.ProductListItemResponse;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -145,5 +148,44 @@ public class ProductRepository {
             sql.append(" AND p.status = ?");
             params.add(status);
         }
+    }
+    // 根据商品id查询基础信息
+    public Optional<ProductDetailResponse> findDetailById(Long id) {
+        String sql = """
+        SELECT id, product_code, product_name, category, unit, safe_stock, status
+        FROM product
+        WHERE id = ?
+        """;
+        List<ProductDetailResponse> products = jdbcTemplate.query(sql, (rs, rowNum) -> {
+            return new ProductDetailResponse(
+                    rs.getLong("id"),
+                    rs.getString("product_code"),
+                    rs.getString("product_name"),
+                    rs.getString("category"),
+                    rs.getString("unit"),
+                    rs.getInt("safe_stock"),
+                    rs.getInt("status"),
+                    List.of()
+            );
+        }, id);
+        return products.stream().findFirst();
+    }
+    // 根据id查询图片列表
+    public List<ProductDetailResponse.ImageInfo> findImagesByProductId(Long productId) {
+        String sql = """
+        SELECT id, image_url, is_main, sort_order
+        FROM product_image
+        WHERE product_id = ?
+        ORDER BY is_main DESC, sort_order ASC, id ASC
+        """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            return new ProductDetailResponse.ImageInfo(
+                    rs.getLong("id"),
+                    rs.getString("image_url"),
+                    rs.getInt("is_main"),
+                    rs.getInt("sort_order")
+            );
+        }, productId);
     }
 }

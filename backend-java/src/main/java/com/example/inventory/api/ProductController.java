@@ -2,11 +2,12 @@ package com.example.inventory.api;
 
 import com.example.inventory.api.dto.ApiResponse;
 import com.example.inventory.api.dto.PageResponse;
+import com.example.inventory.api.dto.ProductDetailResponse;
 import com.example.inventory.api.dto.ProductListItemResponse;
 import com.example.inventory.service.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
 
 @RestController
 public class ProductController {
@@ -54,5 +55,18 @@ public class ProductController {
         );
 
         return ApiResponse.success(response);
+    }
+    // GET /api/products/{id}
+// 商品详情接口
+    @GetMapping("/api/products/{id}")
+    public ApiResponse<ProductDetailResponse> getProductDetail(@PathVariable Long id) {
+        ProductDetailResponse response = productService.getProductDetail(id);
+        return ApiResponse.success(response);
+    }
+
+    // 商品不存在时返回 40400
+    @ExceptionHandler(NoSuchElementException.class)
+    public ApiResponse<Void> handleNoSuchElementException(NoSuchElementException e) {
+        return ApiResponse.fail(40400, e.getMessage());
     }
 }

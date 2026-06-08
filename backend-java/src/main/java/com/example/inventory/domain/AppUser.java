@@ -7,6 +7,7 @@ public class AppUser {
     private String username;
     private String passwordHash;
     private String nickname;
+    private String avatarUrl;
     private String role;
     private Integer status;
     private LocalDateTime createdAt;
@@ -42,6 +43,14 @@ public class AppUser {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public String getRole() {

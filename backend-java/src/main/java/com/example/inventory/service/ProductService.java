@@ -1,9 +1,12 @@
 package com.example.inventory.service;
 
 import com.example.inventory.api.dto.PageResponse;
+import com.example.inventory.api.dto.ProductDetailResponse;
 import com.example.inventory.api.dto.ProductListItemResponse;
 import com.example.inventory.repository.ProductRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,6 +45,23 @@ public class ProductService {
         );
 
         return new PageResponse<>(records, total, safePage, safePageSize);
+    }
+
+    // 查询商品详情
+    public ProductDetailResponse getProductDetail(Long id) {
+        ProductDetailResponse product = productRepository.findDetailById(id)
+                .orElseThrow(() -> new NoSuchElementException("商品不存在"));
+        List<ProductDetailResponse.ImageInfo> images = productRepository.findImagesByProductId((id));
+        return new ProductDetailResponse(
+                product.getId(),
+                product.getProductCode(),
+                product.getProductName(),
+                product.getCategory(),
+                product.getUnit(),
+                product.getSafeStock(),
+                product.getStatus(),
+                images
+        );
     }
 
     private int normalizePage(Integer page) {

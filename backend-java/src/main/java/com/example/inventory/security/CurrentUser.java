@@ -7,12 +7,14 @@ public class CurrentUser {
     private final Long id;
     private final String username;
     private final String nickname;
+    private final String avatarUrl;
     private final String role;
 
-    public CurrentUser(Long id, String username, String nickname, String role) {
+    public CurrentUser(Long id, String username, String nickname, String avatarUrl, String role) {
         this.id = id;
         this.username = username;
         this.nickname = nickname;
+        this.avatarUrl = avatarUrl;
         this.role = role;
     }
 
@@ -26,6 +28,10 @@ public class CurrentUser {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
     public String getRole() {

@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS app_user (
   username VARCHAR(50) NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
   nickname VARCHAR(50) NOT NULL,
+  avatar_url VARCHAR(255) NULL,
   role VARCHAR(30) NOT NULL,
   status TINYINT NOT NULL DEFAULT 1,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -192,12 +193,13 @@ CREATE TABLE IF NOT EXISTS redis_deduct_log (
   CONSTRAINT chk_redis_deduct_status CHECK (status IN ('SUCCESS', 'FAILED'))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO app_user (username, password_hash, nickname, role, status)
+INSERT INTO app_user (username, password_hash, nickname, avatar_url, role, status)
 VALUES
-  ('admin', '{noop}123456', '系统管理员', 'ADMIN', 1),
-  ('warehouse01', '{noop}123456', '仓库管理员01', 'WAREHOUSE_ADMIN', 1)
+  ('admin', '{noop}123456', '系统管理员', NULL, 'ADMIN', 1),
+  ('warehouse01', '{noop}123456', '仓库管理员01', NULL, 'WAREHOUSE_ADMIN', 1)
 ON DUPLICATE KEY UPDATE
   nickname = VALUES(nickname),
+  avatar_url = VALUES(avatar_url),
   role = VALUES(role),
   status = VALUES(status);
 
@@ -220,7 +222,15 @@ VALUES
   ('P005', '拿铁杯', '杯具', '个', 40, 1),
   ('P006', '半自动咖啡机', '设备', '台', 5, 1),
   ('P007', '磨豆机', '设备', '台', 5, 1),
-  ('P008', '咖啡外带杯', '耗材', '箱', 60, 1)
+  ('P008', '咖啡外带杯', '耗材', '箱', 60, 1),
+  ('P009', '云南小粒咖啡豆', '咖啡豆', '袋', 25, 1),
+  ('P010', '冷萃咖啡液', '咖啡饮品', '瓶', 40, 1),
+  ('P011', '挂耳咖啡礼盒', '咖啡饮品', '盒', 30, 1),
+  ('P012', '咖啡搅拌棒', '耗材', '包', 80, 1),
+  ('P013', '咖啡杯盖', '耗材', '箱', 60, 1),
+  ('P014', '摩卡咖啡杯', '杯具', '个', 35, 1),
+  ('P015', '法压壶', '设备', '台', 10, 1),
+  ('P016', '停用测试咖啡豆', '咖啡豆', '袋', 20, 0)
 ON DUPLICATE KEY UPDATE
   product_name = VALUES(product_name),
   category = VALUES(category),
